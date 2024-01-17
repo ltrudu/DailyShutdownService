@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">ShutDownService</string>
+    <string name="shutdown_service_notification_title">ShutDownService</string>
+    <string name="shutdown_service_notification_text">A service that shutdowns the device at specific hour of day.</string>
+    <string name="shutdown_service_notification_tickle">ForegroundService</string>
+    <string name="serviceStopped">Service is stopped</string>
+    <string name="serviceStarted">Service is running</string>
+    <string name="startOnBoot">Start on boot</string>
+    <string name="doNothingOnBoot">Do nothing on boot</string>
+    <string name="startOnCharging">Start when charging \nStop when not charging</string>
+    <string name="doNothingOnCharging">Power events not\nmonitored</string>
+    <string name="shutdownservice_channel_name">ShutDownService Service</string>
+    <string name="shutdownservice_channel_id">ShutDownService Service channel</string>
+    <string name="appdescription">ShutDownService Service is a service that shutdowns the device at specific hour of day.\nService can be started with adb:\nadb shell am broadcast -a com.zebra.foregroundservice.startservice\nService can be stopped with adb:\nadb shell am broadcast -a com.zebra.foregroundservice.stopservice</string>
+    <string name="powereventswatcherservice_channel_name">ShutDownService Service</string>
+    <string name="powereventswatcherservice_channel_id">ShutDownService Service channel</string>
+    <string name="powereventswatcherservice_notification_title">ShutDownService Power Events Watcher</string>
+    <string name="powereventswatcherservice_notification_text">A service that watch for power events (docked, charging) to start or stop ShutDownService.</string>
+    <string name="powereventswatcherservice_notification_tickle">ShutDownService Power Events Watcher</string>
+
+</resources>
