@@ -48,6 +48,18 @@ import java.util.ArrayList;
 //          - Configure autostart on power connection (AC/USB/Wireless)
 //          --es startoncharging "true"
 //          The extras value can be set to "true" or "1" to enable the option and "false" or "0" to disable the option.
+//          --es days "true,false,true,true,false,false,false"
+//          The extras value contains the days that should perform a shutdown. The booleans corresponds to these days
+//                  "monday,tuesday,wednesday,thursday,friday,saturday,sunday"
+//          --ei hours 18
+//          The extras value is an integer that represent the desired hour of shutdown.
+//          --ei minutes 30
+//          The extras value is an integer that represent the desired minutes of shutdown.
+//          --ei seconds 20
+//          The extras value is an integer that represent the desired seconds of shutdown.
+//
+//          In this example we set a shudown to occurs at 18:30:20 every monday,wednesday and thursday.
+// adb shell am broadcast -a com.zebra.shutdownservice.setupservice -n com.zebra.shutdownservice/com.zebra.shutdownservice.SetupServiceBroadcastReceiver --ei hours 18 --ei minutes 30 --ei seconds 20 --es days "true,false,true,true,false,false,false"
 public class MainActivity extends AppCompatActivity {
 
     private Switch mStartStopServiceSwitch = null;
@@ -60,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<CheckBox> cbCheckboxes = null;
     public static MainActivity mMainActivity;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 int minutes = Integer.valueOf(etMinutes.getText().toString());
                 int seconds = Integer.valueOf(etSeconds.getText().toString());
                 boolean[] shutdown_days_boolean_array = PreferencesHelper.getBooleanArrayFromCheckBoxes(cbCheckboxes);
-                String shutdown_days_string = PreferencesHelper.booleanArrayToString(shutdown_days_boolean_array,';');
+                String shutdown_days_string = PreferencesHelper.booleanArrayToString(shutdown_days_boolean_array,',');
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putInt(Constants.SHARED_PREFERENCES_SHUTDOWN_HOURS, hours);
                 editor.putInt(Constants.SHARED_PREFERENCES_SHUTDOWN_MINUTES, minutes);
@@ -201,8 +215,8 @@ public class MainActivity extends AppCompatActivity {
         etHours.setText(String.valueOf(hours));
         etMinutes.setText(String.valueOf(minutes));
         etSeconds.setText(String.valueOf(seconds));
-        String shutdown_days_string = sharedpreferences.getString(Constants.SHARED_PREFERENCES_SHUTDOWN_DAYS,"0;0;0;0;0;0;0");
-        boolean[] shutdown_days_boolean_array = PreferencesHelper.stringToBooleanArray(shutdown_days_string,';');
+        String shutdown_days_string = sharedpreferences.getString(Constants.SHARED_PREFERENCES_SHUTDOWN_DAYS,"false,false,false,false,false,false,false");
+        boolean[] shutdown_days_boolean_array = PreferencesHelper.stringToBooleanArray(shutdown_days_string,',');
         PreferencesHelper.applyBooleanArrayToCheckBoxes(shutdown_days_boolean_array, cbCheckboxes);
     }
 
@@ -300,6 +314,21 @@ public class MainActivity extends AppCompatActivity {
         if(MainActivity.mMainActivity != null) // The application default activity has been opened
         {
             MainActivity.mMainActivity.updateSwitches();
+        }
+    }
+
+    public static void updateTimeIfNecessary()
+    {
+        if(MainActivity.mMainActivity != null) // The application default activity has been opened
+        {
+            MainActivity.mMainActivity.getSettings();
+        }
+    }
+
+    public static void updateDaysIfNecessary() {
+        if(MainActivity.mMainActivity != null) // The application default activity has been opened
+        {
+            MainActivity.mMainActivity.getSettings();
         }
     }
 }

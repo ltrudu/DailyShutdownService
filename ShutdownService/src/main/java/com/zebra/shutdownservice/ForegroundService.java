@@ -66,8 +66,8 @@ public class ForegroundService extends Service {
         sdHours = sharedpreferences.getInt(Constants.SHARED_PREFERENCES_SHUTDOWN_HOURS, 18);
         sdMinutes = sharedpreferences.getInt(Constants.SHARED_PREFERENCES_SHUTDOWN_MINUTES, 0);
         sdSeconds = sharedpreferences.getInt(Constants.SHARED_PREFERENCES_SHUTDOWN_SECONDS, 0);
-        String shutdown_days_string = sharedpreferences.getString(Constants.SHARED_PREFERENCES_SHUTDOWN_DAYS,"0;0;0;0;0;0;0");
-        sdShutdowndays = PreferencesHelper.stringToBooleanArray(shutdown_days_string,';');
+        String shutdown_days_string = sharedpreferences.getString(Constants.SHARED_PREFERENCES_SHUTDOWN_DAYS,"false,false,false,false,false,false,false");
+        sdShutdowndays = PreferencesHelper.stringToBooleanArray(shutdown_days_string,',');
     }
 
     @SuppressLint({"Wakelock"})

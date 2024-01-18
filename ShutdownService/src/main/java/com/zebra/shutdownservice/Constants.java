@@ -14,6 +14,11 @@ public class Constants {
 
     public static final String EXTRA_CONFIGURATION_START_ON_BOOT = "startonboot";
     public static final String EXTRA_CONFIGURATION_START_ON_CHARGING = "startoncharging";
+    public static final String EXTRA_CONFIGURATION_HOURS = "hours";
+    public static final String EXTRA_CONFIGURATION_MINUTES = "minutes";
+    public static final String EXTRA_CONFIGURATION_SECONDS = "seconds";
+
+    public static final String EXTRA_CONFIGURATION_DAYS_OF_WEEK = "days";
 
 
 }
