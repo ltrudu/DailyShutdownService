@@ -48,6 +48,7 @@ import java.util.ArrayList;
 //          - Configure autostart on power connection (AC/USB/Wireless)
 //          --es startoncharging "true"
 //          The extras value can be set to "true" or "1" to enable the option and "false" or "0" to disable the option.
+//
 //          --es days "true,false,true,true,false,false,false"
 //          The extras value contains the days that should perform a shutdown. The booleans corresponds to these days
 //                  "monday,tuesday,wednesday,thursday,friday,saturday,sunday"
