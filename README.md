@@ -1,7 +1,7 @@
 *Please be aware that this library / application / sample is provided as a community project without any guarantee of support*
 =========================================================
 
-This is a sample for a foreground service runnnig on Android that shutdown the device at a specific time on selected days.
+*This is a sample for a service runnnig on Android that shutdown the device at a specific time on selected days.*
 
 The service can be launched using the graphical user interface, intent actions or adb.
 
