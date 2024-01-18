@@ -72,6 +72,11 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox cbAllCheckboxes = null;
 
     private ArrayList<CheckBox> cbCheckboxes = null;
+
+    // This is ugly, I know...
+    // Feel free to refactor the code with an elegant solution and do a pull request
+    // We are not at school any more, so I took a shortcut... there are many shortcuts in this code !!
+    // TODO: don't use shitty statics and use patterns instead
     public static MainActivity mMainActivity;
 
 
