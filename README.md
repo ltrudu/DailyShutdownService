@@ -57,20 +57,32 @@ The service can be started and stopped manually using the following adb commands
      The extras value can be set to "true" or "1" to enable the option and "false" or "0" to disable the option.
 	 
 	 - Configure days allowed to shutdown
+    
 		--es days "true,false,true,true,false,false,false"
+    
 		The extras value contains the days that should perform a shutdown. The booleans corresponds to these days
 				"monday,tuesday,wednesday,thursday,friday,saturday,sunday"
 
 	- Configure time of shutdown
+   
 		--ei hours 18
+   
 		The extras value is an integer that represent the desired hour of shutdown.
+
+
 		--ei minutes 30
+   
 		The extras value is an integer that represent the desired minutes of shutdown.
+
+
 		--ei seconds 20
 		The extras value is an integer that represent the desired seconds of shutdown.
 
+
 	- Sample Intent
+   
 		In this example we set a shudown to occurs at 18:30:20 every monday,wednesday and thursday.
+
 		adb shell am broadcast -a com.zebra.shutdownservice.setupservice -n com.zebra.shutdownservice/com.zebra.shutdownservice.SetupServiceBroadcastReceiver --ei hours 18 --ei minutes 30 --ei seconds 20 --es days "true,false,true,true,false,false,false"
 
 
