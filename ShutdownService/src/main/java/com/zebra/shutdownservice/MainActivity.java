@@ -8,11 +8,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 
 import com.zebra.emdkprofilemanagerhelper.IResultCallbacks;
+
+import java.util.ArrayList;
 
 // The service can be launched using the graphical user interface, intent actions or adb.
 //
@@ -52,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
     private Switch mAutoStartServiceOnCraddleSwitch = null;
 
     private EditText etHours, etMinutes, etSeconds;
+
+    private CheckBox cbAllCheckboxes = null;
+
+    private ArrayList<CheckBox> cbCheckboxes = null;
     public static MainActivity mMainActivity;
 
     @Override
@@ -62,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
         etHours = findViewById(R.id.etHours);
         etMinutes = findViewById(R.id.etMinutes);
         etSeconds = findViewById(R.id.etSeconds);
+        initDaysCheckboxes();
+
         getSettings();
 
         ((Button)findViewById(R.id.btApply)).setOnClickListener(new View.OnClickListener() {
@@ -77,16 +86,20 @@ public class MainActivity extends AppCompatActivity {
                 int hours = Integer.valueOf(etHours.getText().toString());
                 int minutes = Integer.valueOf(etMinutes.getText().toString());
                 int seconds = Integer.valueOf(etSeconds.getText().toString());
+                boolean[] shutdown_days_boolean_array = PreferencesHelper.getBooleanArrayFromCheckBoxes(cbCheckboxes);
+                String shutdown_days_string = PreferencesHelper.booleanArrayToString(shutdown_days_boolean_array,';');
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putInt(Constants.SHARED_PREFERENCES_SHUTDOWN_HOURS, hours);
                 editor.putInt(Constants.SHARED_PREFERENCES_SHUTDOWN_MINUTES, minutes);
                 editor.putInt(Constants.SHARED_PREFERENCES_SHUTDOWN_SECONDS, seconds);
+                editor.putString(Constants.SHARED_PREFERENCES_SHUTDOWN_DAYS, shutdown_days_string);
                 editor.commit();
                 if(ForegroundService.isRunning(MainActivity.this))
                 {
                     ForegroundService.sdHours = hours;
                     ForegroundService.sdMinutes = minutes;
                     ForegroundService.sdSeconds = seconds;
+                    ForegroundService.sdShutdowndays = shutdown_days_boolean_array;
                     ForegroundService.restartWorker(MainActivity.this);
                 }
             }
@@ -166,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.commit();
             }
         });
-
+        initDaysCheckboxes();
         updateSwitches();
         launchPowerEventsWatcherServiceIfNecessary();
     }
@@ -188,7 +201,30 @@ public class MainActivity extends AppCompatActivity {
         etHours.setText(String.valueOf(hours));
         etMinutes.setText(String.valueOf(minutes));
         etSeconds.setText(String.valueOf(seconds));
+        String shutdown_days_string = sharedpreferences.getString(Constants.SHARED_PREFERENCES_SHUTDOWN_DAYS,"0;0;0;0;0;0;0");
+        boolean[] shutdown_days_boolean_array = PreferencesHelper.stringToBooleanArray(shutdown_days_string,';');
+        PreferencesHelper.applyBooleanArrayToCheckBoxes(shutdown_days_boolean_array, cbCheckboxes);
     }
+
+    private void initDaysCheckboxes()
+    {
+        cbCheckboxes = new ArrayList<>();
+        CheckBox cbCheckbox = findViewById(R.id.cbMonday);
+        cbCheckboxes.add(cbCheckbox);
+        cbCheckbox = findViewById(R.id.cbTuesday);
+        cbCheckboxes.add(cbCheckbox);
+        cbCheckbox = findViewById(R.id.cbWednesday);
+        cbCheckboxes.add(cbCheckbox);
+        cbCheckbox = findViewById(R.id.cbThursday);
+        cbCheckboxes.add(cbCheckbox);
+        cbCheckbox = findViewById(R.id.cbFriday);
+        cbCheckboxes.add(cbCheckbox);
+        cbCheckbox = findViewById(R.id.cbSaturday);
+        cbCheckboxes.add(cbCheckbox);
+        cbCheckbox = findViewById(R.id.cbSunday);
+        cbCheckboxes.add(cbCheckbox);
+    }
+
 
     public void updateSwitches()
     {

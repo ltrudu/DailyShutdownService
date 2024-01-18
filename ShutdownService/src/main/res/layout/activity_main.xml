@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <Switch
         android:id="@+id/startStopServiceSwitch"
@@ -50,15 +54,7 @@
         android:textAlignment="textStart"
         android:textSize="18sp" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="103dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        app:srcCompat="@drawable/zebra" />
+
 
 
     <LinearLayout
@@ -104,12 +100,76 @@
             android:text="00" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/lldays"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/llsettime"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/cbMonday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Monday" />
+
+            <CheckBox
+                android:id="@+id/cbTuesday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tuesday" />
+
+            <CheckBox
+                android:id="@+id/cbWednesday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Wednesday" />
+
+            <CheckBox
+                android:id="@+id/cbThursday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Thursday" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/cbFriday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Friday" />
+
+            <CheckBox
+                android:id="@+id/cbSaturday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Saturday" />
+
+            <CheckBox
+                android:id="@+id/cbSunday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sunday" />
+        </LinearLayout>
+    </LinearLayout>
+
     <Button
         android:id="@+id/btApply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignWithParentIfMissing="false"
-        android:layout_below="@+id/llsettime"
+        android:layout_below="@+id/lldays"
         android:layout_alignParentBottom="false"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
@@ -125,4 +185,17 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:text="Display License" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="103dp"
+        android:layout_below="@+id/btLicense"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="40dp"
+        app:srcCompat="@drawable/zebra" />
+
 </RelativeLayout>
+</ScrollView>

@@ -16,6 +16,7 @@ import androidx.work.WorkerParameters;
 
 public abstract class DailyWorker extends Worker {
     private static int hour, minute, seconds;
+    private static boolean[] shutdowndays;
     private static String workerTag = "DailyWorker";
 
     public DailyWorker(@NonNull Context ctx, @NonNull WorkerParameters params) {
@@ -29,16 +30,17 @@ public abstract class DailyWorker extends Worker {
         return WorkManager.getInstance(context).cancelAllWorkByTag(workerTag);
     }
 
-    public static Operation intializeWorker(Context context, Class worker, int hours, int minutes, int seconds)
+    public static Operation intializeWorker(Context context, Class worker, int hours, int minutes, int seconds, boolean[] shutdowndays)
     {
         DailyWorker.hour = hours;
         DailyWorker.minute = minutes;
         DailyWorker.seconds = seconds;
+        DailyWorker.shutdowndays = shutdowndays;
         DailyWorker.workerTag = workerTag;
 
         final Calendar currentDate = Calendar.getInstance();
         final Calendar dueDate = Calendar.getInstance();
-        // Set Execution around 05:00:00 AM
+
         dueDate.set(Calendar.HOUR_OF_DAY, hour);
         dueDate.set(Calendar.MINUTE, minute);
         dueDate.set(Calendar.SECOND, seconds);
@@ -60,6 +62,7 @@ public abstract class DailyWorker extends Worker {
     public Result doWork() {
         // We prepare the next event before executing the real task
         Calendar currentDate = Calendar.getInstance();
+        currentDate.setFirstDayOfWeek(Calendar.MONDAY);
         Calendar dueDate = Calendar.getInstance();
         // Set Execution
         dueDate.set(Calendar.HOUR_OF_DAY, hour);
@@ -77,7 +80,17 @@ public abstract class DailyWorker extends Worker {
                 .build();
         WorkManager.getInstance(getApplicationContext())
                 .enqueue(dailyWorkRequest);
-        // finally we execute the task
-        return executeTask();
+        // finally we execute the task if necessary
+        if(shutdowndays == null)
+            return executeTask();
+        else
+        {
+            int dayOfWeek = currentDate.get(Calendar.DAY_OF_WEEK);
+            if(shutdowndays[dayOfWeek-2])
+            {
+                return executeTask();
+            }
+        }
+        return Result.success();
     }
 }

@@ -30,6 +30,7 @@ public class ForegroundService extends Service {
     private Notification mNotification;
 
     protected static int sdHours, sdMinutes, sdSeconds;
+    protected static boolean[] sdShutdowndays;
 
 
     public ForegroundService() {
@@ -65,6 +66,8 @@ public class ForegroundService extends Service {
         sdHours = sharedpreferences.getInt(Constants.SHARED_PREFERENCES_SHUTDOWN_HOURS, 18);
         sdMinutes = sharedpreferences.getInt(Constants.SHARED_PREFERENCES_SHUTDOWN_MINUTES, 0);
         sdSeconds = sharedpreferences.getInt(Constants.SHARED_PREFERENCES_SHUTDOWN_SECONDS, 0);
+        String shutdown_days_string = sharedpreferences.getString(Constants.SHARED_PREFERENCES_SHUTDOWN_DAYS,"0;0;0;0;0;0;0");
+        sdShutdowndays = PreferencesHelper.stringToBooleanArray(shutdown_days_string,';');
     }
 
     @SuppressLint({"Wakelock"})
@@ -127,7 +130,7 @@ public class ForegroundService extends Service {
             startForeground(SERVICE_ID, mNotification);
 
             // TODO: Add your service code here
-            DailyWorker.intializeWorker(getApplicationContext(), ShutdownWorker.class, sdHours,sdMinutes,sdSeconds);
+            DailyWorker.intializeWorker(getApplicationContext(), ShutdownWorker.class, sdHours,sdMinutes,sdSeconds, sdShutdowndays);
 
             logD("startService:Service started without error.");
         }
@@ -143,7 +146,7 @@ public class ForegroundService extends Service {
     protected static void restartWorker(Context context)
     {
         DailyWorker.removeWorker(context.getApplicationContext());
-        DailyWorker.intializeWorker(context.getApplicationContext(), ShutdownWorker.class, sdHours,sdMinutes,sdSeconds);
+        DailyWorker.intializeWorker(context.getApplicationContext(), ShutdownWorker.class, sdHours,sdMinutes,sdSeconds, sdShutdowndays);
     }
 
     private void stopService()
