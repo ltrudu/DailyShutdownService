@@ -17,3 +17,5 @@ app/release/output.json
 ForegroundServiceSample/release/
 ShutdownService/release/
 ShutdownService/debug/
+DailyShutdownService/debug/
+DailyShutdownService/release/

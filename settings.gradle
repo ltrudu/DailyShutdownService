@@ -15,5 +15,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ShutdownService"
-include ':ShutdownService'
+rootProject.name = "DailyShutdownService"
+include ':DailyShutdownService'
